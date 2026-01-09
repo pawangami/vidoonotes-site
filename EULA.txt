@@ -1,0 +1,12 @@
+END USER LICENSE AGREEMENT (EULA) — VidooNotes
+
+By installing or using VidooNotes, you agree not to:
+1. Copy or distribute the code.
+2. Modify or reverse-engineer the extension.
+3. Create competing products using this code.
+
+Violation results in legal liability.
+
+You acknowledge that the developer is not liable for any loss of data, loss of notes, or any other damages (direct, indirect, incidental, or consequential) arising from the use of this extension. Use of this extension is at your own risk.
+
+
