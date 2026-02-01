@@ -1,37 +1,144 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>VidooNotes</title>
+    <meta charset="UTF-8">
+    <title>VidooNotes – Notes for Videos</title>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            max-width: 720px;
+            margin: 40px auto;
+            padding: 0 20px;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.3em;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .cta {
+            background: #f5f7ff;
+            border: 1px solid #dbe1ff;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .cta a {
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 360px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        form input,
+        form textarea,
+        form select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 6px;
+            margin-bottom: 14px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 13px;
+            color: #666;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>VidooNotes</h1>
-    <p>Take timestamped notes on videos directly in your browser. </p>
 
-    <h3>Send Feedback</h3>
-    <form id="feedbackForm">
+    <h1>VidooNotes</h1>
+    <p class="tagline">
+        Take timestamped notes on videos — directly while watching.
+    </p>
+
+    <div class="cta">
+        👉 <strong>To create notes</strong>, install the
+        <a href="https://chromewebstore.google.com/detail/ndhfgfekhplaaedbfmemmpjgmfboijgk?utm_source=item-share-cb"
+            target="_blank" rel="noopener">
+            VidooNotes Chrome Extension
+        </a>
+        and start taking notes on YouTube and other video platforms.
+    </div>
+
+    <div class="section">
+        <h2>📺 How VidooNotes Works</h2>
         <p>
-            <input type="email" id="email" placeholder="Your email (optional)">
+            Watch this short tutorial to see how VidooNotes lets you draw, write,
+            and save notes synchronized with video timestamps.
         </p>
 
+        <!-- Replace VIDEO_ID -->
+        <!-- <iframe src="https://www.youtube.com/embed/aVKI_2vZO30"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+        </iframe> -->
+        <iframe width="1692" height="656" src="https://www.youtube.com/embed/aVKI_2vZO30" title="VidooNotes demo"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+
+    <div class="section">
+        <h2>💬 Send Feedback</h2>
         <p>
+            Found a bug or have a feature idea? Your feedback directly shapes VidooNotes.
+        </p>
+
+        <form id="feedbackForm">
+            <input type="email" id="email" placeholder="Your email (optional)">
+
             <select id="type">
+                <option>General Feedback</option>
                 <option>Bug Report</option>
                 <option>Feature Request</option>
-                <option>General Feedback</option>
             </select>
-        </p>
 
+            <textarea id="message" rows="5" placeholder="Tell us what you think…" required></textarea>
+
+            <button type="submit">Send Feedback</button>
+            <p id="status"></p>
+        </form>
+    </div>
+
+    <footer>
+        <p>Contact: pawangami@gmail.com</p>
         <p>
-            <textarea id="message" rows="5" cols="40" placeholder="Tell us what you think..." required></textarea>
+            <a href="privacy.html">Privacy Policy</a> ·
+            <a href="EULA.txt" target="_blank" rel="noopener">EULA</a>
         </p>
+    </footer>
 
-        <button type="submit">Send Feedback</button>
-        <p id="status"></p>
-    </form>
-
-    <!-- Firebase SDK -->
+    <!-- Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp }
@@ -55,7 +162,7 @@
 
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
-            status.textContent = "Sending...";
+            status.textContent = "Sending…";
 
             try {
                 await addDoc(collection(db, "feedback"), {
@@ -63,10 +170,10 @@
                     type: type.value,
                     message: message.value,
                     createdAt: serverTimestamp(),
-                    source: "website"
+                    source: "homepage"
                 });
 
-                status.textContent = "✅ Thank you for your feedback!";
+                status.textContent = "✅ Thanks for your feedback!";
                 form.reset();
             } catch (err) {
                 status.textContent = "❌ Failed to send feedback";
@@ -75,10 +182,6 @@
         });
     </script>
 
-    <h3>Contact</h3>
-    <p>Email: pawangami@gmail.com</p>
-
-    <a href="privacy.html">Privacy Policy</a>
 </body>
 
 </html>
