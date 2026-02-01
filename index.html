@@ -9,15 +9,76 @@
     <h1>VidooNotes</h1>
     <p>Take timestamped notes on videos directly in your browser.</p>
 
+    <h3>Send Feedback</h3>
+    <form id="feedbackForm">
+        <p>
+            <input type="email" id="email" placeholder="Your email (optional)">
+        </p>
+
+        <p>
+            <select id="type">
+                <option>Bug Report</option>
+                <option>Feature Request</option>
+                <option>General Feedback</option>
+            </select>
+        </p>
+
+        <p>
+            <textarea id="message" rows="5" cols="40" placeholder="Tell us what you think..." required></textarea>
+        </p>
+
+        <button type="submit">Send Feedback</button>
+        <p id="status"></p>
+    </form>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp }
+            from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBCs_MFyK1dA_f1K0SZHzNQ_eON2FiHfNM",
+            authDomain: "vidoonotes.firebaseapp.com",
+            projectId: "vidoonotes",
+            storageBucket: "vidoonotes.firebasestorage.app",
+            messagingSenderId: "813422099022",
+            appId: "1:813422099022:web:4fe46334e9b5de9d0e611f",
+            measurementId: "G-W1NE5E350H"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const form = document.getElementById("feedbackForm");
+        const status = document.getElementById("status");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            status.textContent = "Sending...";
+
+            try {
+                await addDoc(collection(db, "feedback"), {
+                    email: email.value || null,
+                    type: type.value,
+                    message: message.value,
+                    createdAt: serverTimestamp(),
+                    source: "website"
+                });
+
+                status.textContent = "✅ Thank you for your feedback!";
+                form.reset();
+            } catch (err) {
+                status.textContent = "❌ Failed to send feedback";
+                console.error(err);
+            }
+        });
+    </script>
+
     <h3>Contact</h3>
     <p>Email: pawangami@gmail.com</p>
 
     <a href="privacy.html">Privacy Policy</a>
-    <p>
-        <a href="EULA.txt" target="_blank" rel="noopener noreferrer" style="font-size: 13px">
-            View End-User License Agreement (EULA)
-        </a>
-    </p>
 </body>
 
 </html>
